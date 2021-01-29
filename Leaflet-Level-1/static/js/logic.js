@@ -1,7 +1,8 @@
 // Create map object
 var myMap = L.map("map", {
     center: [40.7, -73.95],
-    zoom: 11
+    zoom: 11,
+    layers:[street, earthquakes]
   });
 
 // Add tile layer
@@ -16,6 +17,8 @@ var street = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y
 
 street.addTo(myMap);
 
+// Add earthquake layer
+var earthquakes = L.layerGroup();
 
 // Store API
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
@@ -41,15 +44,16 @@ function markersize(magnitude) {
 d3.json(url, function(response) {
    
     L.geoJson(response, {
-        style: function(feature){
-            return{
-                color:"white",
+        pointtoLayer: function(feature, latlng){
+            return L.circlemarker(latlng ,{
+                color:"black",
                 fillColor: markercolor(feature.geometry.coordinates[2]),
                 radius:markersize(feature.properties.mag)
-            }
+            });
         }
     }
  
 
+});
 });
 
