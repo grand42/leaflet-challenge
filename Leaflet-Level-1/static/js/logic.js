@@ -6,12 +6,13 @@ var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{
   accessToken: API_KEY
 });
 
+
 // Add earthquake layer
 var earthquakes = L.layerGroup();
 // Create map object
 var myMap = L.map("mapid", {
     center: [40.7, -73.95],
-    zoom: 11,
+    zoom: 5,
     layers:[lightmap, earthquakes]
   });
 lightmap.addTo(myMap);
@@ -20,7 +21,10 @@ lightmap.addTo(myMap);
 
 // Store API
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
-// Choose marker color
+
+// Grab data with with 
+d3.json(url, function(response) {
+   // Choose marker color
 
 function markercolor(depth) {
     return depth > 100? '#800026' :
@@ -38,9 +42,10 @@ function markercolor(depth) {
 function markersize(magnitude) {
     return magnitude * 5
 }
-// Grab data with with 
-d3.json(url, function(response) {
-   
+function onEachFeature (feature, layer) {
+    layer.bindPopup("<h3>" +feature.properties.place + "<h3><hr><p>Date: " + feature.properties.time + "</p><br><p>Magnitude: "
+    +feature.properties.mag + "</p><br><p>Depth: " + feature.geometry.coordinates[2]+"</p>")
+}
     L.geoJson(response, {
         pointtoLayer: function(feature, latlng){
             return L.circlemarker(latlng ,{
@@ -49,11 +54,14 @@ d3.json(url, function(response) {
                 radius:markersize(feature.properties.mag),
                 stroke:True
             });
-        }
+        },
+
+        onEachFeature: onEachFeature
+        
     }).addTo(earthquakes);
  
 earthquakes.addTo(myMap);
 });
-console.log("Test");
+console.log("test");
 
 
