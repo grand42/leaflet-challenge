@@ -60,7 +60,7 @@ L.geoJSON(response, {
             },
 
         onEachFeature: function (feature, layer) {
-            layer.bindPopup("<h3>" +feature.properties.place + "<h3><hr><p>Date: " + feature.properties.time + "</p><br><p>Magnitude: "
+            layer.bindPopup("<h3>" +feature.properties.place + "<h3><hr><p>Date: " + new Date(feature.properties.time) + "</p><br><p>Magnitude: "
             +feature.properties.mag + "</p><br><p>Depth: " + feature.geometry.coordinates[2]+"</p>");}
         
     }).addTo(myMap);
