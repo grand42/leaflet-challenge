@@ -59,7 +59,7 @@ L.geoJSON(response, {
           {
             radius: markerSize(feature.properties.mag),
             fillColor: markerColor(feature.geometry.coordinates[2]),
-            fillOpacity: 0.7,
+            fillOpacity: 0.5,
             color: "black",
             stroke: true,
             weight: 0.5
@@ -68,12 +68,30 @@ L.geoJSON(response, {
       },
 
         onEachFeature: function (feature, layer) {
-            layer.bindPopup("<h3>" +feature.properties.place + "<h3><hr><p>Date: " + new Date(feature.properties.time) + "</p><br><p>Magnitude: "
-            +feature.properties.mag + "</p><br><p>Depth: " + feature.geometry.coordinates[2]+"</p>");}
+            layer.bindPopup("<h3>" +feature.properties.place + "<h3><hr><p>Date: " + new Date(feature.properties.time) + "</p><p>Magnitude: "
+            +feature.properties.mag + "</p><p>Depth: " + feature.geometry.coordinates[2]+"</p>");}
         
     }).addTo(earthquakes);
  
 earthquakes.addTo(myMap);
+
+//Add legend
+var legend = L.control({ position: "bottomright" });
+legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var depths = [ 0, 10 ,20,50, 80, 100];
+    var labels=[];
+    var legendInfo = "<h2>Depth</h2><hr>";
+      div.innerHTML = legendInfo;
+      depths.forEach(function(limit, index) {
+        labels.push(depths[index] + (depths[index + 1] ? '&ndash;' + depths[index + 1] + '<br>' : '+') +"<li style=\"background-color: " + markerColor(depths[index]+1) + "\"></li>"
+        );
+      });
+  
+      div.innerHTML += labels.join("") 
+      return div;
+    }
+    legend.addTo(myMap);
 });
 
 
