@@ -21,7 +21,7 @@ var myMap = L.map("mapid", {
 lightmap.addTo(myMap);
 
 // Store API
-var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 // Grab data with with 
 d3.json(url, function(response) {
@@ -30,13 +30,13 @@ d3.json(url, function(response) {
     // Choose marker color
 function markerColor(depth) {
     switch(true) {
-        case( depth > 100):
+        case( depth > 90):
             return '#FF0000';
-        case( depth > 80):
+        case( depth > 70):
             return '#ff8800';
         case( depth > 50):
             return '#FFA500 ';
-        case( depth > 20):
+        case( depth > 30):
             return '#FFCC00';
         case( depth > 10):
             return '#FFFF00';
@@ -79,16 +79,17 @@ earthquakes.addTo(myMap);
 var legend = L.control({ position: "bottomright" });
 legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
-    var depths = [ 0, 10 ,20,50, 80, 100];
+    var depths = [ -10, 10 ,30,50, 70, 90];
     var labels=[];
     var legendInfo = "<h2>Depth</h2><hr>";
       div.innerHTML = legendInfo;
       depths.forEach(function(limit, index) {
-        labels.push(depths[index] + (depths[index + 1] ? '&ndash;' + depths[index + 1] + '<br>' : '+') +"<li style=\"background-color: " + markerColor(depths[index]+1) + "\"></li>"
-        );
+        labels.push( "<i style=\"background: " + markerColor(depths[index]+1) + "\"></i>" 
+        +(depths[index] + (depths[index + 1] ? '&ndash;' + depths[index + 1] + '<br>' : '+')));
+        
       });
   
-      div.innerHTML += labels.join("") 
+      div.innerHTML += labels.join("<br>") 
       return div;
     }
     legend.addTo(myMap);
