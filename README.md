@@ -24,4 +24,4 @@ This project utilizes Leaflet, Javascript, html, and mapbox api to visualize ear
 
 * A popup that provides additional information about each earthquake appears when a marker is clicked.
 
-![Basic_Map](Level_1_Map.png)
+![Basic_Map](Level_1_Map.PNG)
