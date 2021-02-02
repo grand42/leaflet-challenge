@@ -8,7 +8,7 @@ This project utilizes Leaflet, Javascript, html, and mapbox api to visualize ear
 
 ### Import the Data
 
-* The data was collected from the [USGS GeoJSON Feed]https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson) for earthquakes that occurred in the past 7 days.
+* The data was collected from the [USGS GeoJSON Feed](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson) for earthquakes that occurred in the past 7 days.
 
 * Using leaflet and geoJSON, the data was able to be extracted for use in our map visualization.
 
